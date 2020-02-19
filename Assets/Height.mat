@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Height
+  m_Shader: {fileID: 4800000, guid: c9e67ce37267f9e4cb56609e92a360f5, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _DiffuseTexture:
+        m_Texture: {fileID: 2800000, guid: e280124c74dc03f42b90c2fefd900752, type: 3}
+        m_Scale: {x: 3, y: 3}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionTexture:
+        m_Texture: {fileID: 2800000, guid: f7e96904e8667e1439548f0f86389447, type: 3}
+        m_Scale: {x: 3, y: 3}
+        m_Offset: {x: 0, y: 0}
+    - _LavaTexture:
+        m_Texture: {fileID: 2800000, guid: f7e96904e8667e1439548f0f86389447, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StoneTexture:
+        m_Texture: {fileID: 2800000, guid: e280124c74dc03f42b90c2fefd900752, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: e280124c74dc03f42b90c2fefd900752, type: 3}
+        m_Scale: {x: 3, y: 3}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample1:
+        m_Texture: {fileID: 2800000, guid: f7e96904e8667e1439548f0f86389447, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Contrast: -1.59
+    - _EmissionBrightnessSpeed: 1
+    - _Float0: -1.638255
+    - _Float1: 1
+    - _Float2: 10
+    - _Float3: 10
+    - _Float4: 1
+    - _Float5: 1
+    - _Float6: -1
+    - _HeightSharpness: 10
+    - _LavaBrightnessSpeed: 1
+    - _TessPhongStrength: 0.5
+    - _Tesselation: 1
+    - _VertexDirection: 0.1
+    - __dirty: 0
+    m_Colors:
+    - _CCC: {r: 0.01, g: 0, b: 0, a: 0}
+    - _Color0: {r: 1, g: 0, b: 0, a: 1}
+    - _EmissionMinMaxBrightness: {r: 0.5, g: 1, b: 0, a: 0}
+    - _EmissionPanSpeed: {r: 0.04, g: 0.06, b: 0, a: 0}
+    - _LavaMinMaxBrightness: {r: 0.5, g: 1, b: 0, a: 0}
+    - _LavaPanSpeed: {r: 0.01, g: 0, b: 0, a: 0}
+    - _Vector0: {r: 0.1, g: 0.1, b: 0, a: 0}

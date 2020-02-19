@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SnowDepression
+  m_Shader: {fileID: 4800000, guid: 9835a8b19590d8247871131ad083c27d, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 10ff51d2d87fb7b46b70b55f8551c146, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _R_AO_G_Edges:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AO_Power: 1
+    - _EdgeMultiplier: 1
+    - _GradientHeight: 0.6
+    - _VertOffsetMultiplier: -1
+    - _VertOffsetMultiplier1: 1
+    - _VertextOffsetRadius: 3.86
+    - _VertextOffsetRadius1: 1.79
+    - _VertextOffsetStrength: 0.48
+    - _VertextOffsetStrength1: 4.44
+    - __dirty: 0
+    m_Colors:
+    - _Bot_XZ: {r: 0.7404704, g: 0, b: 1, a: 0}
+    - _Bot_Y: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 0}
+    - _EdgeColor: {r: 0.9411765, g: 0.9197947, b: 0.7474049, a: 0}
+    - _Top_XZ: {r: 0, g: 0.3038753, b: 1, a: 0}
+    - _Top_Y: {r: 1, g: 0, b: 0, a: 0}
