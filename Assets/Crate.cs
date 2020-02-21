@@ -17,14 +17,17 @@ public class Crate : OnTriggerEvent
       case StatType.Speed:
         player.speedBoost += _val;
         break;
-      case StatType.Jump:
-        player.jumpBoost += _val;
-        break;
       case StatType.Weight:
         player.weightBoost += _val;
         break;
-      case StatType.Strength:
-        player.strengthBoost += _val;
+      case StatType.Damage:
+        player.damageBoost += _val;
+        break;
+      case StatType.RecoveryTime:
+        player.recoveryTime -= _val / 10;
+        break;
+      case StatType.FireDelay:
+        player.fireDelay -= _val / 10;
         break;
     }
 
@@ -35,7 +38,8 @@ public class Crate : OnTriggerEvent
 public enum StatType
 {
   Speed,
-  Jump, 
   Weight,
-  Strength
+  Damage,
+  RecoveryTime,
+  FireDelay
 }

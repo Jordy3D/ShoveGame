@@ -4,23 +4,60 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 using BT;
+using NaughtyAttributes;
 
 public class Controller : MonoBehaviour
 {
   public Transform gamePlane;
-  public float moveSpeed = 10, jumpStrength = 10, pushStrength = 100, pushDistance = 2;
 
-  public float speedBoost, jumpBoost, weightBoost, strengthBoost, percentage;
+  [BoxGroup("Stats")]
+  public float moveSpeed = 10, jumpStrength = 10, pushStrength = 100, pushDistance = 2, recoveryTime = 1, damage = 1, fireDelay = .5f;
+  [BoxGroup("Boosts")]
+  public float speedBoost, jumpBoost, weightBoost, damageBoost, percentage;
+
+  [BoxGroup("Debugs")]
+  public float pushMultipler = 10, gravity = 10, maxVelocityChange = 10;
+
+  [BoxGroup("Prefabs and references")]
+  public GameObject pushEffect, shieldObject;
+
+  [BoxGroup("States")]
+  public bool canInput = true, wasHit = false, shieldOut = false, canFire = true;
 
   Vector2 m;
   Vector2 r;
+  Vector3 movement;
 
   Rigidbody rb;
+
+  SmashCamera cam;
+  PlayerUIManager ui;
+
+
+  private void OnDrawGizmos()
+  {
+    Gizmos.DrawWireSphere(transform.position, pushDistance);
+    Gizmos.DrawRay(transform.position, transform.forward);
+  }
+
+  private void Awake()
+  {
+    rb = GetComponent<Rigidbody>();
+
+    cam = Camera.main.GetComponent<SmashCamera>();
+    ui = cam.GetComponent<PlayerUIManager>();
+    cam.AddTarget(transform);
+
+    //rb.freezeRotation = true;
+    //rb.useGravity = false;
+  }
 
   // Start is called before the first frame update
   void Start()
   {
     rb = GetComponent<Rigidbody>();
+
+    shieldObject.SetActive(false);
   }
 
   // Update is called once per frame
@@ -30,10 +67,47 @@ public class Controller : MonoBehaviour
     Rotate();
   }
 
+  private void FixedUpdate()
+  {
+    //if (grounded)
+    //{
+    //  //Vector3 targetVelocity = movement;
+    //  //targetVelocity *= (moveSpeed + speedBoost);// * Time.deltaTime
+
+    //  //Vector3 velocity = rb.velocity;
+    //  //Vector3 velocityChange = (targetVelocity - velocity);
+    //  //velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+    //  //velocityChange.y = 0;
+    //  //velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
+    //  //rb.AddForce(velocity, ForceMode.VelocityChange);
+    //}
+    //rb.AddForce(new Vector3(0, -gravity * rb.mass, 0));
+
+    //grounded = false;
+
+    //if (canJump)
+    //{
+
+    //}
+  }
+
+
   private void Move()
   {
-    Vector3 movement = new Vector3(m.x, 0, m.y) * (moveSpeed + speedBoost) * Time.deltaTime;
-    transform.Translate(movement, UnityEngine.Space.World);
+    if (canInput)
+    {
+      Vector3 movement = new Vector3(m.x, 0, m.y) * (moveSpeed + speedBoost) * Time.deltaTime;
+
+      if (wasHit && movement.magnitude > .01f)
+      {
+        rb.velocity = new Vector3(0, rb.velocity.y, 0);
+        wasHit = false;
+      }
+
+      transform.Translate(movement, UnityEngine.Space.World);
+    }
+
+    //rb.velocity = new Vector3(movement.x * (moveSpeed + speedBoost), rb.velocity.y, movement.z * (moveSpeed + speedBoost));
   }
   private void Rotate()
   {
@@ -51,14 +125,93 @@ public class Controller : MonoBehaviour
     r = _value.Get<Vector2>();
   }
 
-  void OnJump()
-  {
-    rb.AddForce(transform.up * (jumpStrength + jumpBoost), ForceMode.Impulse);
-  }
+  //void OnJump()
+  //{
+  //  if (canJump)
+  //  {
+  //    rb.AddForce(transform.up * (jumpStrength + jumpBoost), ForceMode.Impulse);
+  //  }
+  //}
 
   void OnFire()
   {
-    Transform other = transform.SphereForward(1, pushDistance).transform;
-    other.GetComponent<Rigidbody>()?.AddRelativeForce(transform.forward * (pushStrength * 1 / transform.Distance(other)));
+    if (!shieldOut)
+    {
+      if (canFire)
+      {
+        GameObject push = Instantiate(pushEffect, transform.position, transform.rotation);
+
+        Transform other = transform.SphereForward(1, pushDistance).transform;
+        Transform other2 = transform.RayForward(pushDistance).transform;
+
+        Controller otherController = null;
+        Rigidbody otherRB = null;
+
+        if (other)
+        {
+          print(transform.name + " is hitting " + other.name);
+          otherRB = other.GetComponent<Rigidbody>();
+          otherController = other.GetComponent<Controller>();
+        }
+        else if (other2)
+        {
+          otherRB = other2.GetComponent<Rigidbody>();
+          otherController = other2.GetComponent<Controller>();
+        }
+
+        if (otherRB)
+        {
+          otherRB.AddForce(transform.forward * ((pushStrength * pushMultipler * otherController.percentage / 100) + damage), ForceMode.Impulse);
+          otherController.percentage += damage + damageBoost;
+          other.GetComponent<Controller>()?.Cooldown();
+
+          ui.UpdatePlayerUI();
+        }
+
+        FireCooldown();
+      } 
+    }
+  }
+
+  void OnShield()
+  {
+    if (!shieldOut)
+    {
+      shieldOut = true;
+      shieldObject.SetActive(true);
+    }
+  }
+
+  void Cooldown()
+  {
+    StartCoroutine(nameof(InputCooldown));
+  }
+  void FireCooldown()
+  {
+    StartCoroutine(nameof(FireInputCooldown));
+  }
+
+  void OnShieldOff()
+  {
+    if (shieldOut)
+    {
+      shieldOut = false;
+      shieldObject.SetActive(false);
+    }
+  }
+
+  IEnumerator InputCooldown()
+  {
+    wasHit = true;
+    canInput = false;
+    yield return new WaitForSeconds(recoveryTime);
+    canInput = true;
+  }
+
+  IEnumerator FireInputCooldown()
+  {
+    canFire = false;
+    yield return new WaitForSeconds(fireDelay);
+    canFire = true;
   }
 }

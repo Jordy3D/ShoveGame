@@ -33,9 +33,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Float0: 2.91
-    - _Opacity: 0.504
+    - _Float1: 1
+    - _Opacity: 1
     - _Opacity1: 0.454
-    - _Smoothness: 0
+    - _Smoothness: 1
     - _Smoothness1: 0.454
     - __dirty: 0
-    m_Colors: []
+    m_Colors:
+    - _Vector0: {r: 2, g: 2, b: 0, a: 0}

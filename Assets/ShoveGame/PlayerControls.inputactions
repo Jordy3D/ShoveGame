@@ -38,9 +38,17 @@
                     "interactions": ""
                 },
                 {
-                    "name": "G",
+                    "name": "Shield",
                     "type": "Button",
-                    "id": "c9ff7f6f-d66f-48c9-9d99-a6368963f784",
+                    "id": "8e410bfc-7755-4585-b21f-61946d05beca",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ShieldOff",
+                    "type": "Button",
+                    "id": "b02b2e09-4c94-400f-b190-dde74100e970",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
@@ -84,7 +92,7 @@
                     "name": "",
                     "id": "42df39e4-7747-4ff9-9a6f-6aae686f02e1",
                     "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
                     "action": "Fire",
@@ -95,7 +103,7 @@
                     "name": "",
                     "id": "1cfd2578-a05e-4cba-99f5-bf856ebf1512",
                     "path": "<Gamepad>/rightShoulder",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
                     "action": "Fire",
@@ -104,12 +112,561 @@
                 },
                 {
                     "name": "",
-                    "id": "2e938b3c-cb0f-4562-8095-b44a15017132",
-                    "path": "<Keyboard>/g",
+                    "id": "d2b30efb-3ce4-4bf2-b154-44ee5e142c7a",
+                    "path": "<XInputController>/rightTrigger",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cb45d55c-36b8-475c-ad2f-4f6648e5313c",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shield",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cdad95d1-7b33-4d3b-9ce8-6dd7a0e0f63f",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shield",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ab6de9e9-8f0e-40d7-bb24-7f3e5b771839",
+                    "path": "<XInputController>/leftTrigger",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shield",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ef6e9e5e-44c8-4dac-9405-66fd1f6e71cb",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShieldOff",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4b46f7e4-23e7-43a4-b788-fff6db6e3669",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShieldOff",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Flight",
+            "id": "c428f78d-0311-4b94-837b-78d27914aa44",
+            "actions": [
+                {
+                    "name": "Stick",
+                    "type": "Value",
+                    "id": "adcf0b44-12d6-4e5f-bab1-912a75f9eb98",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "UnknownSlider",
+                    "type": "Value",
+                    "id": "63ca3438-838a-4152-a19c-412e6703ceb9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "UpperThrottlePot",
+                    "type": "Value",
+                    "id": "8bb7c52f-54b3-4dd4-aae9-46fa07931e68",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "LowerThrottlePot",
+                    "type": "Value",
+                    "id": "db9cdaef-fc24-457a-b17c-c95de84b2215",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "StickTwist",
+                    "type": "Value",
+                    "id": "a2b8b295-8910-4322-828f-232af8884126",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Throttle",
+                    "type": "Button",
+                    "id": "ff2116b7-03a8-40ee-83fd-8236b5d4063c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Mode3",
+                    "type": "Button",
+                    "id": "909312be-e25f-4650-bbd1-02e8469555a5",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "Sensitivity",
+                    "type": "Button",
+                    "id": "d7b19a95-f058-454f-a43d-87fa61b66ec9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ButtonC",
+                    "type": "Button",
+                    "id": "2a91f55e-70ec-47c8-be59-9e424bc25ee9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "ButtonB",
+                    "type": "Button",
+                    "id": "7f2e7929-c5dd-430d-b643-ea50ff483fad",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "ButtonA",
+                    "type": "Button",
+                    "id": "d353225e-a650-41ae-a884-5decc8ae8752",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "SafeFire",
+                    "type": "Button",
+                    "id": "8dae5975-500e-4eb2-b31f-1f403269de23",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "TriggerLight",
+                    "type": "Button",
+                    "id": "077fbbd8-dc37-4c06-b15f-566111bea4d9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "TriggerHeavy",
+                    "type": "Button",
+                    "id": "b987aa69-be14-451c-ab6b-932dce5d8b3e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "PinkySwitch",
+                    "type": "Button",
+                    "id": "ccc53df9-0706-4662-b684-6e8ed81ddabb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "Mode2",
+                    "type": "Button",
+                    "id": "6f98eb31-8a36-4f26-8f74-38df43f71254",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "Mode1",
+                    "type": "Button",
+                    "id": "8a40bc13-2dd1-45fa-ba77-77624f539536",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "UpperDPadNorth",
+                    "type": "Button",
+                    "id": "b14ac3fd-f2b4-4dc6-90da-d55466760ab1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "LowerDPadNorth",
+                    "type": "Button",
+                    "id": "fa2160f9-4d92-4387-b2fd-2030b28d628a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "UpperDPadSouth",
+                    "type": "Button",
+                    "id": "e34e3020-0c9b-47ba-8819-19091c6ced68",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "LowerDPadSouth",
+                    "type": "Button",
+                    "id": "1c9c4753-f784-4d8d-8706-1bc7115001c8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "UpperDPadEast",
+                    "type": "Button",
+                    "id": "ebc36fcc-c29a-41d4-a4fb-8b446154a118",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "LowerDPadEast",
+                    "type": "Button",
+                    "id": "628c425e-669d-47a0-a559-6a8dfa533f15",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "UpperDPadWest",
+                    "type": "Button",
+                    "id": "01558587-c5de-4b1c-a896-c203f0e25f60",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "LowerDPadWest",
+                    "type": "Button",
+                    "id": "2f21b355-0e4f-4acc-ace5-5d4b7b5717f7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3cdd8267-931c-48e7-b500-10ab03e6ed52",
+                    "path": "<Joystick>/stick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "G",
+                    "action": "Stick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a6155ffa-5a10-4edf-b0fe-abb8aa8dc644",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/stick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Stick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ee422f74-21be-47d3-9509-dc2673716c3c",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/slider",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UnknownSlider",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "664e8899-a555-4f45-a7d6-20078e4dc4e9",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/ry",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UpperThrottlePot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eb36ad14-b218-495d-bfa8-e80da6740518",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/rx",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LowerThrottlePot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d6bc0dcf-06df-41f4-b7cc-6f26a4fa22e7",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/rz",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StickTwist",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "56e45112-cb4a-4055-b3c1-a1de0470d2fe",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Throttle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cc9669d2-467a-4502-92a0-8538b8c27ebe",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/button26",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Mode3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b353e0ef-3b03-4b76-8101-ffc3c1bbfaca",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/slider",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sensitivity",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "65380d7e-e33f-4e5a-8d99-4beed90c5083",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/button5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ButtonC",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "051862a0-f69b-487b-8948-6417794395f8",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/button4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ButtonB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a603c16e-2c35-44d8-868b-c7c77bcb6dc1",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/button3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ButtonA",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a1856d04-8629-4251-bffe-483f519a8e1f",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SafeFire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "191d5237-5617-4a4b-8dee-f3389a065ea8",
+                    "path": "<Joystick>/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TriggerLight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "70de5dc5-d6ef-49db-9365-6f2fc97fb629",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/button15",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TriggerHeavy",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a835a5db-7cb8-4a6e-9e43-6fd09e1f8924",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/button6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PinkySwitch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7bb8c01a-c8fa-4a68-bee7-82fd71c2908a",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/button25",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Mode2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "71621d6f-8294-45f9-b10d-34a41a17f82f",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/button24",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Mode1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "68788065-f442-41ba-94ae-4f00d94c9d77",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/button16",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UpperDPadNorth",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "985b3e57-450b-482d-afc1-f09dcb091055",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/button18",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UpperDPadSouth",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1aa4f0bb-29c6-4690-925f-54fa88933df9",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/button17",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UpperDPadEast",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6d66ea74-9adc-4baf-a450-3d167f6193a3",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/button19",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UpperDPadWest",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "db22189d-a721-4fd6-ae76-839ef67cdb68",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/hat/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LowerDPadWest",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d15d7ce7-6855-4845-9e8e-d051b953d6ab",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/hat/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LowerDPadEast",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c76af69d-f6e7-4c75-b592-85362cbb584b",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/hat/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LowerDPadSouth",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "02136e96-dc90-4d49-bf2e-b37edef60ebb",
+                    "path": "<HID::Saitek Saitek X52 Flight Control System>/hat/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LowerDPadNorth",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

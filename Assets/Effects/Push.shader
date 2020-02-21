@@ -4,10 +4,11 @@ Shader "Push"
 {
 	Properties
 	{
+		_Opacity("Opacity", Range( 0 , 1)) = 1
 		_Smoothness("Smoothness", Range( 0 , 1)) = 0
-		_Float0("Float 0", Float) = 10
 		_Texture0("Texture 0", 2D) = "bump" {}
-		[HideInInspector] _texcoord( "", 2D ) = "white" {}
+		_Float1("Float 1", Range( -1 , 1)) = 0
+		_Vector0("Vector 0", Vector) = (1,1,0,0)
 		[HideInInspector] __dirty( "", Int ) = 1
 	}
 
@@ -16,6 +17,7 @@ Shader "Push"
 		Tags{ "RenderType" = "Transparent"  "Queue" = "Transparent+0" "IgnoreProjector" = "True" }
 		Cull Back
 		CGINCLUDE
+		#include "UnityShaderVariables.cginc"
 		#include "UnityPBSLighting.cginc"
 		#include "Lighting.cginc"
 		#pragma target 3.0
@@ -34,12 +36,13 @@ Shader "Push"
 			float3 worldPos;
 			float3 worldNormal;
 			INTERNAL_DATA
-			float2 uv_texcoord;
 		};
 
 		uniform sampler2D _Texture0;
+		uniform float2 _Vector0;
+		uniform float _Float1;
 		uniform float _Smoothness;
-		uniform float _Float0;
+		uniform float _Opacity;
 
 
 		inline float3 TriplanarSamplingSNF( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
@@ -51,44 +54,10 @@ Shader "Push"
 			xNorm = ( tex2D( ASE_TEXTURE_PARAMS( topTexMap ), tiling * worldPos.zy * float2( nsign.x, 1.0 ) ) );
 			yNorm = ( tex2D( ASE_TEXTURE_PARAMS( topTexMap ), tiling * worldPos.xz * float2( nsign.y, 1.0 ) ) );
 			zNorm = ( tex2D( ASE_TEXTURE_PARAMS( topTexMap ), tiling * worldPos.xy * float2( -nsign.z, 1.0 ) ) );
-			xNorm.xyz = half3( UnpackNormal( xNorm ).xy * float2( nsign.x, 1.0 ) + worldNormal.zy, worldNormal.x ).zyx;
-			yNorm.xyz = half3( UnpackNormal( yNorm ).xy * float2( nsign.y, 1.0 ) + worldNormal.xz, worldNormal.y ).xzy;
-			zNorm.xyz = half3( UnpackNormal( zNorm ).xy * float2( -nsign.z, 1.0 ) + worldNormal.xy, worldNormal.z ).xyz;
+			xNorm.xyz = half3( UnpackScaleNormal( xNorm, normalScale.y ).xy * float2( nsign.x, 1.0 ) + worldNormal.zy, worldNormal.x ).zyx;
+			yNorm.xyz = half3( UnpackScaleNormal( yNorm, normalScale.x ).xy * float2( nsign.y, 1.0 ) + worldNormal.xz, worldNormal.y ).xzy;
+			zNorm.xyz = half3( UnpackScaleNormal( zNorm, normalScale.y ).xy * float2( -nsign.z, 1.0 ) + worldNormal.xy, worldNormal.z ).xyz;
 			return normalize( xNorm.xyz * projNormal.x + yNorm.xyz * projNormal.y + zNorm.xyz * projNormal.z );
-		}
-
-
-		float2 voronoihash6( float2 p )
-		{
-			
-			p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
-			return frac( sin( p ) *43758.5453);
-		}
-
-
-		float voronoi6( float2 v, float time, inout float2 id, float smoothness )
-		{
-			float2 n = floor( v );
-			float2 f = frac( v );
-			float F1 = 8.0;
-			float F2 = 8.0; float2 mr = 0; float2 mg = 0;
-			for ( int j = -1; j <= 1; j++ )
-			{
-				for ( int i = -1; i <= 1; i++ )
-			 	{
-			 		float2 g = float2( i, j );
-			 		float2 o = voronoihash6( n + g );
-					o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = g - f + o;
-					float d = 0.5 * dot( r, r );
-			 		if( d<F1 ) {
-			 			F2 = F1;
-			 			F1 = d; mg = g; mr = r; id = o;
-			 		} else if( d<F2 ) {
-			 			F2 = d;
-			 		}
-			 	}
-			}
-			return F1;
 		}
 
 
@@ -99,17 +68,19 @@ Shader "Push"
 			float3 ase_worldTangent = WorldNormalVector( i, float3( 1, 0, 0 ) );
 			float3 ase_worldBitangent = WorldNormalVector( i, float3( 0, 1, 0 ) );
 			float3x3 ase_worldToTangent = float3x3( ase_worldTangent, ase_worldBitangent, ase_worldNormal );
-			float3 triplanar9 = TriplanarSamplingSNF( _Texture0, ase_worldPos, ase_worldNormal, 1.0, float2( 1,1 ), 1.0, 0 );
-			float3 tanTriplanarNormal9 = mul( ase_worldToTangent, triplanar9 );
-			o.Normal = tanTriplanarNormal9;
+			float4 ase_vertexTangent = mul( unity_WorldToObject, float4( ase_worldTangent, 0 ) );
+			float3 ase_vertexBitangent = mul( unity_WorldToObject, float4( ase_worldBitangent, 0 ) );
+			float3 ase_vertexNormal = mul( unity_WorldToObject, float4( ase_worldNormal, 0 ) );
+			float3x3 objectToTangent = float3x3(ase_vertexTangent.xyz, ase_vertexBitangent, ase_vertexNormal);
+			float3 ase_vertex3Pos = mul( unity_WorldToObject, float4( i.worldPos , 1 ) );
+			float3 triplanar9 = TriplanarSamplingSNF( _Texture0, ase_vertex3Pos, ase_vertexNormal, 1.0, _Vector0, _Float1, 0 );
+			float3 tanTriplanarNormal9 = mul( objectToTangent, triplanar9 );
+			float3 temp_output_9_0 = tanTriplanarNormal9;
+			o.Normal = temp_output_9_0;
 			o.Albedo = float4(1,1,1,0).rgb;
 			o.Metallic = 1.0;
 			o.Smoothness = _Smoothness;
-			float time6 = 0.0;
-			float2 coords6 = i.uv_texcoord * _Float0;
-			float2 id6 = 0;
-			float voroi6 = voronoi6( coords6, time6,id6, 0 );
-			o.Alpha = voroi6;
+			o.Alpha = ( tanTriplanarNormal9 + _Opacity ).x;
 		}
 
 		ENDCG
@@ -140,10 +111,9 @@ Shader "Push"
 			struct v2f
 			{
 				V2F_SHADOW_CASTER;
-				float2 customPack1 : TEXCOORD1;
-				float4 tSpace0 : TEXCOORD2;
-				float4 tSpace1 : TEXCOORD3;
-				float4 tSpace2 : TEXCOORD4;
+				float4 tSpace0 : TEXCOORD1;
+				float4 tSpace1 : TEXCOORD2;
+				float4 tSpace2 : TEXCOORD3;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -154,7 +124,6 @@ Shader "Push"
 				UNITY_INITIALIZE_OUTPUT( v2f, o );
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 				UNITY_TRANSFER_INSTANCE_ID( v, o );
-				Input customInputData;
 				float3 worldPos = mul( unity_ObjectToWorld, v.vertex ).xyz;
 				half3 worldNormal = UnityObjectToWorldNormal( v.normal );
 				half3 worldTangent = UnityObjectToWorldDir( v.tangent.xyz );
@@ -163,8 +132,6 @@ Shader "Push"
 				o.tSpace0 = float4( worldTangent.x, worldBinormal.x, worldNormal.x, worldPos.x );
 				o.tSpace1 = float4( worldTangent.y, worldBinormal.y, worldNormal.y, worldPos.y );
 				o.tSpace2 = float4( worldTangent.z, worldBinormal.z, worldNormal.z, worldPos.z );
-				o.customPack1.xy = customInputData.uv_texcoord;
-				o.customPack1.xy = v.texcoord;
 				TRANSFER_SHADOW_CASTER_NORMALOFFSET( o )
 				return o;
 			}
@@ -177,7 +144,6 @@ Shader "Push"
 				UNITY_SETUP_INSTANCE_ID( IN );
 				Input surfIN;
 				UNITY_INITIALIZE_OUTPUT( Input, surfIN );
-				surfIN.uv_texcoord = IN.customPack1.xy;
 				float3 worldPos = float3( IN.tSpace0.w, IN.tSpace1.w, IN.tSpace2.w );
 				half3 worldViewDir = normalize( UnityWorldSpaceViewDir( worldPos ) );
 				surfIN.worldPos = worldPos;
@@ -203,25 +169,32 @@ Shader "Push"
 }
 /*ASEBEGIN
 Version=17500
-2073;116;1390;660;2095.15;500.9185;2.043413;True;False
+2073;116;1390;660;1176.5;168.6063;1.05756;True;False
+Node;AmplifyShaderEditor.TexturePropertyNode;10;-1382.153,-275.3447;Inherit;True;Property;_Texture0;Texture 0;4;0;Create;True;0;0;False;0;None;302951faffe230848aa0d3df7bb70faa;True;bump;Auto;Texture2D;-1;0;1;SAMPLER2D;0
+Node;AmplifyShaderEditor.Vector2Node;11;-1342.068,89.23104;Inherit;False;Property;_Vector0;Vector 0;6;0;Create;True;0;0;False;0;1,1;2,2;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.RangedFloatNode;12;-1351.711,-31.83164;Inherit;False;Property;_Float1;Float 1;5;0;Create;True;0;0;False;0;0;1;-1;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TriplanarNode;9;-1034.214,-74.06641;Inherit;True;Spherical;Object;True;Top Texture 0;_TopTexture0;white;-1;None;Mid Texture 0;_MidTexture0;white;-1;None;Bot Texture 0;_BotTexture0;white;-1;None;Triplanar Sampler;False;10;0;SAMPLER2D;;False;5;FLOAT;1;False;1;SAMPLER2D;;False;6;FLOAT;0;False;2;SAMPLER2D;;False;7;FLOAT;0;False;9;FLOAT3;0,0,0;False;8;FLOAT;1;False;3;FLOAT2;1,1;False;4;FLOAT;1;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;2;-461.108,266.3954;Float;False;Property;_Opacity;Opacity;1;0;Create;True;0;0;False;0;1;1;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;8;-1106.214,573.9336;Inherit;False;Property;_Float0;Float 0;3;0;Create;True;0;0;False;0;10;2.91;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.TextureCoordinatesNode;7;-1139.1,152.5161;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TexturePropertyNode;10;-1312.214,-145.0664;Inherit;True;Property;_Texture0;Texture 0;4;0;Create;True;0;0;False;0;None;302951faffe230848aa0d3df7bb70faa;True;bump;Auto;Texture2D;-1;0;1;SAMPLER2D;0
 Node;AmplifyShaderEditor.ColorNode;3;-367,-220;Float;False;Constant;_Color0;Color 0;-1;0;Create;True;0;0;False;0;1,1,1,0;0,0,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;5;-398.1001,247.9002;Float;False;Property;_Smoothness;Smoothness;2;0;Create;True;0;0;False;0;0;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;2;-404,351;Float;False;Property;_Opacity;Opacity;1;0;Create;True;0;0;False;0;1;0.394;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;4;-405.9,156.0999;Float;False;Constant;_Metallic;Metallic;-1;0;Create;True;0;0;False;0;1;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.VoronoiNode;6;-654,456;Inherit;True;0;0;1;0;1;False;1;False;False;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;2;FLOAT;0;FLOAT;1
-Node;AmplifyShaderEditor.TriplanarNode;9;-1034.214,-74.06641;Inherit;True;Spherical;World;True;Top Texture 0;_TopTexture0;white;-1;None;Mid Texture 0;_MidTexture0;white;-1;None;Bot Texture 0;_BotTexture0;white;-1;None;Triplanar Sampler;False;10;0;SAMPLER2D;;False;5;FLOAT;1;False;1;SAMPLER2D;;False;6;FLOAT;0;False;2;SAMPLER2D;;False;7;FLOAT;0;False;9;FLOAT3;0,0,0;False;8;FLOAT;1;False;3;FLOAT2;1,1;False;4;FLOAT;1;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;1;-688.5614,-282.8622;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;False;0;-1;e9742c575b8f4644fb9379e7347ff62e;e9742c575b8f4644fb9379e7347ff62e;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TextureCoordinatesNode;7;-1118.666,418.16;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;4;-326.583,30.25024;Float;False;Constant;_Metallic;Metallic;-1;0;Create;True;0;0;False;0;1;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;5;-320.8983,105.1295;Float;False;Property;_Smoothness;Smoothness;2;0;Create;True;0;0;False;0;0;1;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;13;-157.0119,187.7913;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;-11,-61;Float;False;True;-1;2;ASEMaterialInspector;0;0;Standard;Push;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;False;False;False;False;False;False;Back;0;False;-1;0;False;-1;False;0;False;-1;0;False;-1;False;0;Transparent;0.5;True;True;0;False;Transparent;;Transparent;All;14;all;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;2;5;False;-1;10;False;-1;4;1;False;-1;1;False;-1;1;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;0;False;0;0;False;-1;-1;0;False;-1;0;0;0;False;0.1;False;-1;0;False;-1;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
+WireConnection;9;0;10;0
+WireConnection;9;8;12;0
+WireConnection;9;3;11;0
 WireConnection;6;0;7;0
 WireConnection;6;2;8;0
-WireConnection;9;0;10;0
+WireConnection;13;0;9;0
+WireConnection;13;1;2;0
 WireConnection;0;0;3;0
 WireConnection;0;1;9;0
 WireConnection;0;3;4;0
 WireConnection;0;4;5;0
-WireConnection;0;9;6;0
+WireConnection;0;9;13;0
 ASEEND*/
-//CHKSM=2E3DC9605283EB803AA7B87D8E44D5CDF707FD7F
+//CHKSM=CF1DA430937FC21B6EE5B5C778BE1715497828B7
