@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CrateSpawner : MonoBehaviour
+public class CrateSpawner : RunEventConstantly
 {
   public GameObject crate;
   public StatType type = StatType.Speed;

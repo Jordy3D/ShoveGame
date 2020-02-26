@@ -11,12 +11,16 @@ public class Controller : MonoBehaviour
   public Transform gamePlane;
 
   [BoxGroup("Stats")]
-  public float moveSpeed = 10, jumpStrength = 10, pushStrength = 100, pushDistance = 2, recoveryTime = 1, damage = 1, fireDelay = .5f;
+  public float moveSpeed = 10, jumpStrength = 10, pushStrength = 100, pushDistance = 2, recoveryTime = 1, damage = 1, fireDelay = .5f, percentage, shield = 100;
   [BoxGroup("Boosts")]
-  public float speedBoost, jumpBoost, weightBoost, damageBoost, percentage;
+  public float speedBoost, jumpBoost, weightBoost, damageBoost;
 
   [BoxGroup("Debugs")]
   public float pushMultipler = 10, gravity = 10, maxVelocityChange = 10;
+
+
+  [BoxGroup("Debugs")]
+  public int stocks = 3;
 
   [BoxGroup("Prefabs and references")]
   public GameObject pushEffect, shieldObject;
@@ -28,10 +32,11 @@ public class Controller : MonoBehaviour
   Vector2 r;
   Vector3 movement;
 
-  Rigidbody rb;
+  [HideInInspector]
+  public Rigidbody rb;
 
   SmashCamera cam;
-  PlayerUIManager ui;
+  PlayerManager ui;
 
 
   private void OnDrawGizmos()
@@ -45,7 +50,7 @@ public class Controller : MonoBehaviour
     rb = GetComponent<Rigidbody>();
 
     cam = Camera.main.GetComponent<SmashCamera>();
-    ui = cam.GetComponent<PlayerUIManager>();
+    ui = cam.GetComponent<PlayerManager>();
     cam.AddTarget(transform);
 
     //rb.freezeRotation = true;
@@ -69,26 +74,7 @@ public class Controller : MonoBehaviour
 
   private void FixedUpdate()
   {
-    //if (grounded)
-    //{
-    //  //Vector3 targetVelocity = movement;
-    //  //targetVelocity *= (moveSpeed + speedBoost);// * Time.deltaTime
 
-    //  //Vector3 velocity = rb.velocity;
-    //  //Vector3 velocityChange = (targetVelocity - velocity);
-    //  //velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
-    //  //velocityChange.y = 0;
-    //  //velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
-    //  //rb.AddForce(velocity, ForceMode.VelocityChange);
-    //}
-    //rb.AddForce(new Vector3(0, -gravity * rb.mass, 0));
-
-    //grounded = false;
-
-    //if (canJump)
-    //{
-
-    //}
   }
 
 

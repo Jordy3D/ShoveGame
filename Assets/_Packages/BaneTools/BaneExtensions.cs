@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -135,6 +136,15 @@ namespace BT
     public static float Tilt(this Transform _object, Vector3 _referenceAxis, Vector3 _targetAxis)
     {
       return Vector3.Dot(_referenceAxis, _targetAxis);
+    }
+
+    public static Transform Clear(this Transform transform)
+    {
+      foreach (Transform child in transform)
+      {
+        GameObject.Destroy(child.gameObject);
+      }
+      return transform;
     }
 
     #endregion
@@ -338,6 +348,7 @@ namespace BT
     }
     #endregion
   }
+
   public enum Direction
   {
     Forward = 0,

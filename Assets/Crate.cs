@@ -5,6 +5,7 @@ using UnityEngine;
 public class Crate : OnTriggerEvent
 {
   public StatType statType = StatType.Speed;
+  public float amount;
 
   public void Collect(float _val)
   {

@@ -82,7 +82,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2713360963652612973}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.4, y: 1.03, z: 0.94}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2784117331767660674}
@@ -116,7 +116,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: da4e55fe83496d94da78e24bfed5d1fe, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -185,20 +185,25 @@ MonoBehaviour:
   pushStrength: 20
   pushDistance: 2
   recoveryTime: 1
+  damage: 10
+  fireDelay: 0.5
+  percentage: 0
+  shield: 100
   speedBoost: 0
   jumpBoost: 0
   weightBoost: 0
-  strengthBoost: 0
-  percentage: 0
+  damageBoost: 0
   pushMultipler: 1
   gravity: 10
   maxVelocityChange: 10
+  stocks: 3
   pushEffect: {fileID: 5773578915901970011, guid: fe2b15a50e99052458020b5a07e8377d,
     type: 3}
   shieldObject: {fileID: 1077709089778825812}
   canInput: 1
   wasHit: 0
   shieldOut: 0
+  canFire: 1
 --- !u!114 &2713360963652612971
 MonoBehaviour:
   m_ObjectHideFlags: 0

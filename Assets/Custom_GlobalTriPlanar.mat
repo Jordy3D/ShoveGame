@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Custom_GlobalTriPlanar
+  m_Shader: {fileID: 4800000, guid: 531bad69b51ea344e9b4bea6107e98c8, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Texture0:
+        m_Texture: {fileID: 2800000, guid: e280124c74dc03f42b90c2fefd900752, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Contrast: -1.47
+    - _Contrast2: -1.59
+    - _Falloff: 10
+    - _Float0: 0.4
+    - _HeightSharpness: 10
+    - _HeightSharpness2: 10
+    - _Scale: 0.1
+    - __dirty: 0
+    m_Colors:
+    - _Vector0: {r: 0.5, g: 0.5, b: 0, a: 0}
