@@ -33,9 +33,7 @@ public class ArenaBoundary : OnTriggerEvent
         }
         else
         {
-          player.transform.position = new Vector3(0, 3, 0);
-          player.rb.velocity = Vector3.zero;
-          player.percentage = 0;
+          player.Respawn();
           manager.UpdatePlayerUI();
         }
       }

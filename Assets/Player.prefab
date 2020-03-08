@@ -204,6 +204,8 @@ MonoBehaviour:
   wasHit: 0
   shieldOut: 0
   canFire: 1
+  rb: {fileID: 0}
+  combatType: 1
 --- !u!114 &2713360963652612971
 MonoBehaviour:
   m_ObjectHideFlags: 0

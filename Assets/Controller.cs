@@ -26,7 +26,7 @@ public class Controller : MonoBehaviour
   public GameObject pushEffect, shieldObject;
 
   [BoxGroup("States")]
-  public bool canInput = true, wasHit = false, shieldOut = false, canFire = true;
+  public bool canInput = true, wasHit = false, shieldOut = false, canFire = true, canShield = true;
 
   Vector2 m;
   Vector2 r;
@@ -37,6 +37,9 @@ public class Controller : MonoBehaviour
 
   SmashCamera cam;
   PlayerManager ui;
+
+  public CombatType combatType = CombatType.Ranged;
+  public enum CombatType { Melee, Ranged }
 
 
   private void OnDrawGizmos()
@@ -77,6 +80,17 @@ public class Controller : MonoBehaviour
 
   }
 
+  public void Respawn()
+  {
+    transform.position = new Vector3(0, 3, 0);
+    rb.velocity = Vector3.zero;
+    percentage = 0;
+
+    canShield = true;
+    shield = 100;
+    shieldObject.transform.localScale = new Vector3(shield / 100, .5f, shield / 100);
+
+  }
 
   private void Move()
   {
@@ -97,8 +111,11 @@ public class Controller : MonoBehaviour
   }
   private void Rotate()
   {
-    float heading = Mathf.Atan2(r.x, r.y);
-    transform.rotation = Quaternion.Euler(0f, heading * Mathf.Rad2Deg, 0f);
+    if (r != Vector2.zero)
+    {
+      float heading = Mathf.Atan2(r.x, r.y);
+      transform.rotation = Quaternion.Euler(0f, heading * Mathf.Rad2Deg, 0f);
+    }
   }
 
   void OnMovement(InputValue _value)
@@ -125,43 +142,72 @@ public class Controller : MonoBehaviour
     {
       if (canFire)
       {
-        GameObject push = Instantiate(pushEffect, transform.position, transform.rotation);
-
-        Transform other = transform.SphereForward(1, pushDistance).transform;
-        Transform other2 = transform.RayForward(pushDistance).transform;
-
         Controller otherController = null;
         Rigidbody otherRB = null;
 
-        if (other)
+        switch (combatType)
         {
-          print(transform.name + " is hitting " + other.name);
-          otherRB = other.GetComponent<Rigidbody>();
-          otherController = other.GetComponent<Controller>();
-        }
-        else if (other2)
-        {
-          otherRB = other2.GetComponent<Rigidbody>();
-          otherController = other2.GetComponent<Controller>();
+          case CombatType.Melee:
+
+            break;
+          case CombatType.Ranged:
+            GameObject push = Instantiate(pushEffect, transform.position, transform.rotation);
+
+            Transform other = transform.SphereForward(1, pushDistance).transform;
+            Transform other2 = transform.RayForward(pushDistance).transform;
+
+            if (other)
+            {
+              print(transform.name + " is hitting " + other.name);
+              if (other.name == "Shield")
+              {
+                other.GetComponent<FollowTransform>().target.GetComponent<Controller>().DamageShield(damage);
+                return;
+              }
+              otherRB = other.GetComponent<Rigidbody>();
+              otherController = other.GetComponent<Controller>();
+            }
+            else if (other2)
+            {
+              otherRB = other2.GetComponent<Rigidbody>();
+              otherController = other2.GetComponent<Controller>();
+            }
+
+            if (otherRB)
+            {
+              otherRB.AddForce(transform.forward * ((pushStrength * pushMultipler * otherController.percentage / 100) + damage), ForceMode.Impulse);
+              otherController.percentage += damage + damageBoost;
+              other.GetComponent<Controller>()?.Cooldown();
+
+              ui.UpdatePlayerUI();
+            }
+            break;
         }
 
-        if (otherRB)
-        {
-          otherRB.AddForce(transform.forward * ((pushStrength * pushMultipler * otherController.percentage / 100) + damage), ForceMode.Impulse);
-          otherController.percentage += damage + damageBoost;
-          other.GetComponent<Controller>()?.Cooldown();
-
-          ui.UpdatePlayerUI();
-        }
 
         FireCooldown();
-      } 
+      }
+    }
+  }
+
+  void DamageShield(float _value)
+  {
+    shield -= _value;
+    if (shield > 20)
+    {
+      shieldObject.transform.localScale = new Vector3(shield / 100, .5f, shield / 100);
+    }
+    else
+    {
+      canShield = false;
+      shieldOut = true;
+      OnShieldOff();
     }
   }
 
   void OnShield()
   {
-    if (!shieldOut)
+    if (!shieldOut && canShield)
     {
       shieldOut = true;
       shieldObject.SetActive(true);

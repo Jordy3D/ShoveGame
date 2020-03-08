@@ -35,13 +35,9 @@ public class OnTriggerEvent : MonoBehaviour
   {
     Collider col = GetComponent<Collider>();
     if (col)
-    {
       col.isTrigger = true;
-    }
     else
-    {
       Debug.LogWarning(string.Format("The GameObject {0} does not have a collider. This will not work with trigger events.", name));
-    }
   }
 
   public virtual void Start()
@@ -57,20 +53,12 @@ public class OnTriggerEvent : MonoBehaviour
       {
         scripts = other.GetComponents<MonoBehaviour>();
         foreach (MonoBehaviour mono in scripts)
-        {
           if (mono?.GetType().Name == scriptName)
-          {
             OnEnter(other);
-          }
-        }
       }
       else
-      {
         if (other.tag == hitTag || hitTag == "")
-        {
           OnEnter(other);
-        }
-      }
     }
   }
 
@@ -100,20 +88,12 @@ public class OnTriggerEvent : MonoBehaviour
       {
         scripts = other.GetComponents<MonoBehaviour>();
         foreach (MonoBehaviour mono in scripts)
-        {
           if (mono?.GetType().Name == scriptName)
-          {
             OnStay(other);
-          }
-        }
       }
       else
-      {
         if (other.tag == hitTag || (!hasScript && hitTag == ""))
-        {
           OnStay(other);
-        }
-      }
     }
   }
 
@@ -140,20 +120,12 @@ public class OnTriggerEvent : MonoBehaviour
       {
         scripts = other.GetComponents<MonoBehaviour>();
         foreach (MonoBehaviour mono in scripts)
-        {
           if (mono?.GetType().Name == scriptName)
-          {
             OnExit(other);
-          }
-        }
       }
       else
-      {
         if (other.tag == hitTag || hitTag == "")
-        {
           OnExit(other);
-        }
-      }
     }
   }
 
@@ -178,17 +150,13 @@ public class OnTriggerEvent : MonoBehaviour
   public virtual void DisableTriggers()
   {
     foreach (var col in cols)
-    {
       col.enabled = false;
-    }
   }
 
   public virtual void EnableTriggers()
   {
     foreach (var col in cols)
-    {
       col.enabled = true;
-    }
   }
 
   public IEnumerator DelayRepeatEnter(float _delay)
