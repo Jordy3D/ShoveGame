@@ -148,7 +148,7 @@ public class Controller : MonoBehaviour
         switch (combatType)
         {
           case CombatType.Melee:
-
+            print("Not Yet Implented");
             break;
           case CombatType.Ranged:
             GameObject push = Instantiate(pushEffect, transform.position, transform.rotation);
@@ -175,15 +175,27 @@ public class Controller : MonoBehaviour
 
             if (otherRB)
             {
+
+              // Change the damage to a damage function!
+
               otherRB.AddForce(transform.forward * ((pushStrength * pushMultipler * otherController.percentage / 100) + damage), ForceMode.Impulse);
-              otherController.percentage += damage + damageBoost;
+              if (ui.options.mode == GameMode.Percentage)
+                otherController.percentage += damage + damageBoost;
+              else
+              {
+                otherController.percentage -= damage + damageBoost;
+                if (otherController.percentage <= 0)
+                {
+                  otherController.Respawn();
+                }
+              }
+
               other.GetComponent<Controller>()?.Cooldown();
 
               ui.UpdatePlayerUI();
             }
             break;
         }
-
 
         FireCooldown();
       }

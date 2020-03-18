@@ -20,11 +20,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Albedo:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 84508b93f15f2b64386ec07486afc7a3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normals:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 8178c5ce4aa3d5341804ce7d0ff18428, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -33,20 +33,20 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _ASEOutlineWidth: 0
-    - _Glossiness: 4.192941
+    - _Glossiness: 8.9
     - _LightScale: 0.3
     - _NormalScale: 0
-    - _OutlineColorMultiplier: 1
-    - _OutlineWidth: 0
+    - _OutlineColorMultiplier: 0
+    - _OutlineWidth: 0.05
     - _RimOffset: 0.24
-    - _RimPower: 0.5
-    - _ShadowOffset: 0
-    - _ShadowSharpness: 0
+    - _RimPower: 3.95
+    - _ShadowOffset: 3.78
+    - _ShadowSharpness: 0.54
     - _Specularity: 159.88
     - __dirty: 0
     m_Colors:
-    - _Color: {r: 0, g: 0, b: 0, a: 0}
-    - _RimColor: {r: 0, g: 1, b: 0.8758622, a: 0}
-    - _ShadowTint: {r: 0, g: 0, b: 0, a: 0}
-    - _SpecularColor: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _RimColor: {r: 0, g: 7.4642644, b: 6.5275726, a: 1}
+    - _ShadowTint: {r: 1, g: 1, b: 1, a: 0}
+    - _SpecularColor: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 0}
     - _SpecularSmoothstep: {r: 0, g: 0, b: 0, a: 0}

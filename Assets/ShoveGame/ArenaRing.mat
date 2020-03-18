@@ -39,12 +39,12 @@ Material:
     - _Cutoff: 0.5
     - _DepthFadeDistance: 2.52
     - _DistortionAmount: 0
-    - _Float0: 8
+    - _Float0: 9.176471
     - _Float6: 11.91
     - _Float7: 10.19
     - _FresnelPower: 0
     - _FresnelScale: 0
-    - _Glow: 2.1
+    - _Glow: 3.1721046
     - _Height: -0.14
     - _Intensity: 1
     - _TimeScale: 0
@@ -54,5 +54,8 @@ Material:
     - _Color1: {r: 1, g: 1, b: 1, a: 1}
     - _Color2: {r: 1, g: 1, b: 1, a: 1}
     - _ForcefieldTint: {r: 1, g: 0, b: 0, a: 1}
+    - _GlowColour: {r: 1, g: 1, b: 1, a: 1}
     - _IntersectionColor: {r: 0.043137256, g: 1, b: 1, a: 0}
+    - _MainColour: {r: 0, g: 1, b: 1, a: 1}
+    - _MainColourBlend: {r: 0, g: 1, b: 1, a: 1}
     - _Vector0: {r: 0.05, g: 0, b: 0, a: 0}

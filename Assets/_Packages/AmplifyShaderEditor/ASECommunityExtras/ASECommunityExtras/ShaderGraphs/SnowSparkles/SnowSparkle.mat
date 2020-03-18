@@ -51,7 +51,7 @@ Material:
     - _ScreenSpaceUVTiling: 0
     - _SparkleCutoff: 0.2
     - _SparkleScale: 1
-    - _SparkleTiling: 0.92
+    - _SparkleTiling: 1000
     - _SparklesIntensity: 5.7
     - _StaticUVTiling: 0
     - _Tiling: 2
@@ -62,8 +62,9 @@ Material:
     - _Color: {r: 0, g: 0, b: 0, a: 0}
     - _Color0: {r: 0, g: 0, b: 0, a: 0}
     - _FresnelBiasScalePower: {r: 0, g: 9.55, b: 3.34, a: 0}
-    - _FresnelColor: {r: 0.8254717, g: 0.9608202, b: 1, a: 0}
+    - _FresnelColor: {r: 0.055493895, g: 0, b: 0.09433961, a: 0}
     - _FresnelSettings: {r: 1, g: 1, b: 3.94, a: 0}
     - _SnowDirection: {r: 0, g: 1, b: 0, a: 0}
     - _Step: {r: 0.14, g: 0.29, b: 0.18, a: 0}
-    - _Tint: {r: 1, g: 1, b: 1, a: 0}
+    - _Tint: {r: 0, g: 0, b: 0, a: 0}
+    - _WaveSpeed: {r: 0, g: 0.001, b: 0, a: 0}

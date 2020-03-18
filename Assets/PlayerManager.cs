@@ -11,6 +11,7 @@ using NaughtyAttributes;
 public class PlayerManager : MonoBehaviour
 {
   public SmashCamera cam;
+  public GameOptions options;
 
   [BoxGroup("UI")] public GridLayoutGroup playerUIHolder;
 
@@ -26,12 +27,14 @@ public class PlayerManager : MonoBehaviour
 
   List<Controller> controllers;
 
-  [BoxGroup("Scenes")] public GameObject charSelectScene, gameScene;
+  [BoxGroup("Scenes")] public GameObject charSelectScene, optionsScene, gameScene;
 
   bool goingUp;
 
   private void Start()
   {
+    options = cam.GetComponent<GameOptions>();
+
     playerUIHolder.gameObject.SetActive(false);
     gameUI.SetActive(false);
 
@@ -114,6 +117,32 @@ public class PlayerManager : MonoBehaviour
     charSelectScene.SetActive(false);
     gameScene.SetActive(true);
     gameUI.SetActive(true);
+
+    InitialisePlayerUI();
+  }
+
+  public void InitialisePlayerUI()
+  {
+    print("Initialising Player UIs...");
+    for (int i = 0; i < players.Count; i++)
+    {
+      switch (options.mode)
+      {
+        case GameMode.HP:
+          players[i].GetComponent<Controller>().percentage = options.defaultHealth;
+          break;
+        case GameMode.Percentage:
+          players[i].GetComponent<Controller>().percentage = 0;
+          break;
+      }
+    }
+    print("Mode Set to " + options.mode.ToString());
+    foreach (var type in types)
+    {
+      type.SetText(modeText);
+    }
+    print("Mode types labled as " + modeText);
+    UpdatePlayerUI();
   }
 
   public void StartCharSelect()
