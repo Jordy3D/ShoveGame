@@ -84,7 +84,17 @@ public class Controller : MonoBehaviour
   {
     transform.position = new Vector3(0, 3, 0);
     rb.velocity = Vector3.zero;
-    percentage = 0;
+
+    switch (ui.options.mode)
+    {
+      case GameMode.HP:
+        percentage = ui.options.defaultHealth;
+
+        break;
+      case GameMode.Percentage:
+        percentage = 0;
+        break;
+    }
 
     canShield = true;
     shield = 100;
@@ -178,19 +188,25 @@ public class Controller : MonoBehaviour
 
               // Change the damage to a damage function!
 
-              otherRB.AddForce(transform.forward * ((pushStrength * pushMultipler * otherController.percentage / 100) + damage), ForceMode.Impulse);
-              if (ui.options.mode == GameMode.Percentage)
-                otherController.percentage += damage + damageBoost;
-              else
+              switch (ui.options.mode)
               {
-                otherController.percentage -= damage + damageBoost;
-                if (otherController.percentage <= 0)
-                {
-                  otherController.Respawn();
-                }
+                case GameMode.HP:
+                  otherRB.AddForce(transform.forward * (ui.options.defaultHealth - ((pushStrength * pushMultipler * otherController.percentage / 100) + damage)), ForceMode.Impulse);
+
+                  otherController.percentage -= damage + damageBoost;
+                  if (otherController.percentage <= 0)
+                  {
+                    otherController.Respawn();
+                  }
+                  break;
+                case GameMode.Percentage:
+                  otherRB.AddForce(transform.forward * ((pushStrength * pushMultipler * otherController.percentage / 100) + damage), ForceMode.Impulse);
+
+                  otherController.percentage += damage + damageBoost;
+                  break;
               }
 
-              other.GetComponent<Controller>()?.Cooldown();
+              otherController.Cooldown();
 
               ui.UpdatePlayerUI();
             }
@@ -200,6 +216,11 @@ public class Controller : MonoBehaviour
         FireCooldown();
       }
     }
+  }
+
+  void Damage()
+  {
+
   }
 
   void DamageShield(float _value)

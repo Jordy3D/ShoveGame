@@ -148,6 +148,7 @@ public class PlayerManager : MonoBehaviour
   public void StartCharSelect()
   {
     charSelectScene.SetActive(true);
+    optionsScene.SetActive(false);
     gameScene.SetActive(false);
     gameUI.SetActive(false);
   }
