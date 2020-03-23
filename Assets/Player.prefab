@@ -165,7 +165,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!114 &2713360963652612964
 MonoBehaviour:
@@ -204,6 +204,7 @@ MonoBehaviour:
   wasHit: 0
   shieldOut: 0
   canFire: 1
+  canShield: 1
   rb: {fileID: 0}
   combatType: 1
 --- !u!114 &2713360963652612971

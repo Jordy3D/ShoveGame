@@ -82,6 +82,21 @@ public class Controller : MonoBehaviour
 
   public void Respawn()
   {
+    if (stocks > 0)
+    {
+      stocks--;
+      if (stocks <= 0)
+      {
+        cam.RemoveTarget(transform);
+        canInput = false;
+        return;
+      }
+      else
+      {
+        ui.UpdatePlayerUI();
+      }
+    }
+
     transform.position = new Vector3(0, 3, 0);
     rb.velocity = Vector3.zero;
 
@@ -191,7 +206,7 @@ public class Controller : MonoBehaviour
               switch (ui.options.mode)
               {
                 case GameMode.HP:
-                  otherRB.AddForce(transform.forward * (ui.options.defaultHealth - ((pushStrength * pushMultipler * otherController.percentage / 100) + damage)), ForceMode.Impulse);
+                  otherRB.AddForce(transform.forward * (pushStrength * pushMultipler), ForceMode.Impulse);
 
                   otherController.percentage -= damage + damageBoost;
                   if (otherController.percentage <= 0)
